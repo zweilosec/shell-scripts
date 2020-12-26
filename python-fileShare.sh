@@ -25,6 +25,8 @@ HN="hostname -I"
 res=$(eval $HN)
 arrIN=(${res// / })
 IP=""
+#TODO:Make GetPort function that takes either user input or cmdline argument for custom port
+PORT=8099
 
 #if there is more than one IP available, list the first two as options
 #TODO: make a way to list all options
@@ -34,19 +36,24 @@ if [ ${#arrIN[@]} -gt 1 ]; then
         select opt in "${options[@]}"
         do
         case $opt in
+                #Selecting "1" will assign the first IP to $IP
                 "${arrIN[0]}")
                         IP="${arrIN[0]}"
                         break
                 ;;
-
+                #Selecting "2" will assign the second IP to $IP
                 "${arrIN[1]}")
                         IP="${arrIN[1]}"
                         break
                 ;;
+                #Selecting "3" will exit the program
                 "Quit")
-                break
+                exit 0
                 ;;
-                *) echo "Invalid option: $REPLY";;
+                
+                #Any input other than 1-3 will result in this error message
+                *) echo "Invalid option: $REPLY"
+                ;;
         esac
         done
 else
@@ -56,7 +63,7 @@ fi
 echo ""
 echo "IP: "$IP
 echo ""
-echo -e "File links...\n"
+echo -e "Download files using these links:\n"
 for entry in `ls`;do
         if  [  ! -d $entry  ];then
                 wgetCmd=$(echo "wget http://${IP##*( )}:8099/$entry" | xargs)
@@ -64,9 +71,10 @@ for entry in `ls`;do
         fi
 done
 echo ""
-echo -e "\nCurrent Directory Contents"
+echo -e "\nCurrent Directory Contents:"
 ls --color .
 echo ""
-echo -e "\nStarting Server"
+echo -e "\nStarting Server..."
 
-python3 -m http.server 8099  -d .
+#Opens HTTP Server in the folder the command is run from on port $PORT
+python3 -m http.server $PORT -d .
