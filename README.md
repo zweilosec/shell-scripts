@@ -1,15 +1,17 @@
 # shell-scripts
 A collection of various shell scripts for automation of common tasks
 
-
 ## autoSCP.sh
 
 Tool for automatically copying the contents of a folder to a remote system after connecting to wifi.  
 Should be run with a cron-job or other automation so it is always checking for wifi connection.
+Useful for Raspberry pi or android phones with a terminal installed.
 
 ## install-apps.sh
 
 Script for installing the tools you need for an engagement when you can't bring "hacking tools" with you.
+Warning! Doing this blindly can break your distro.  Make sure to be careful what you are installing, and 
+don't overwrite system dependencies!
 
 ## ipaddr.sh
 
@@ -26,6 +28,7 @@ Test of the case/switch function for bash shell scripting, with a simple menu fo
 ## multitool.sh
 
 Mega tool with many different options:
+Made to demonstrate different shell script capabilities.
 
 1) Add a user
 2) Change your SSH Port
@@ -42,5 +45,5 @@ Mega tool with many different options:
 ## python-fileShare.sh
 
 Creates a Python3 HTTP server, listing the files in the specified directory with ready to copy wget links.
-Currently hard-coded for port 8099 
-#TODO: take user input for port
+Updated to optionally take a port to share over, and a directory to share.  
+Defaults are port 8099 and to share the directory the script is run from.
