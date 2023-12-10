@@ -1,3 +1,6 @@
+:: Sorry for the janky way of adding the commands to the array!  I am still looking for a better way to do this!
+:: Open an issue at https://github.com/zweilosec/shell-scripts/issues if you can help! Thanks!
+
 @echo off
 setlocal EnableDelayedExpansion
 
@@ -27,7 +30,7 @@ rem for collecting file hashes in a whole folder on Windows
 rem =============================================================================================
 Rem Upon Connection:
 
-set Arr[0]=date /t ^& time /t
+set Arr[0]=date /t
 set Arr[1]=time /t
 set Arr[2]=tasklist /V
 set Arr[3]=auditpol /get /category:*
@@ -110,25 +113,28 @@ set Arr[52]=netstat /anob
 set Arr[53]=query user
 set Arr[54]=tasklist
 
+rem =============================================================================================
 :: Loop through all commands and write output to file
 
 set "x=0"
 
 :SymLoop
 if not defined Arr[%x%] goto :endLoop
-call set VAL=%%Arr[%x%]%%
-::echo %VAL%
+call set COMMAND=%%Arr[%x%]%%
+::echo %COMMAND%
 
 REM do your stuff VAL
-echo. >> %var%
-echo. >> %var%
-echo ================================================================================ >> %var%
-echo ================================================================================ >> %var%
-echo [+] %VAL% >> %var%
-echo ================================================================================ >> %var%
-echo ================================================================================ >> %var%
-cmd /c "%VAL%" >> %var%
-::cmd /c %VAL%
+echo. >> %logfile%
+echo. >> %logfile%
+echo ================================================================================ >> %logfile%
+echo ================================================================================ >> %logfile%
+echo [+] %COMMAND% >> %logfile%
+echo ================================================================================ >> %logfile%
+echo ================================================================================ >> %logfile%
+:: Must pipe the output of wmix.exe through "more" to fix Unicode to ASCII problems when outputting to file
+:: https://superuser.com/questions/812438/combine-batch-wmic-ansi-unicode-output-formatting/812471#812471
+cmd /c "%COMMAND%" | more >> %logfile%
+cmd /c %COMMAND%
 
 SET /a "x+=1"
 GOTO :SymLoop
