@@ -1,6 +1,10 @@
 # shell-scripts
 A collection of various shell scripts for automation of common tasks
 
+## windows_collection.bat
+
+A Windows .bat script for enumerating a system for forensic analysis.  Sends all output to a file for later parsing.
+
 ## autoSCP.sh
 
 Tool for automatically copying the contents of a folder to a remote system after connecting to wifi.  
